@@ -1,0 +1,180 @@
+.container {
+  padding-left: 10px;
+}
+
+.table-header {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    font-weight: bold;
+    font-size: 28px;
+  }
+
+  .fn {
+    display: flex;
+    column-gap: 1em;
+
+    .show {
+      flex-grow: 1;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.no-data {
+  text-align: center;
+}
+
+.table-responsive {
+  height: 89vh;
+  overflow-y: auto;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+
+    th {
+      position: sticky;
+      top: 0;
+      background-color: grey;
+      text-align: left;
+      font-size: smaller;
+      font-weight: 600;
+      color: white;
+      padding: 10px 10px;
+      width: 50px;
+
+      &:nth-child(1),
+      &:nth-child(2) {
+        text-align: center;
+      }
+    }
+
+    th + th {
+      width: auto;
+    }
+
+    td {
+      padding: 10px;
+
+      &:nth-child(1) {
+        text-align: center;
+      }
+
+      &:not(:nth-child(2)) {
+        vertical-align: top;
+      }
+
+      & .avatar {
+        border-radius: 100%;
+      }
+
+      & .author {
+        text-align: center;
+      }
+
+      & .category {
+        display: flex;
+        flex-direction: row;
+        column-gap: 0.5em;
+
+        & .highlight {
+          color: seagreen;
+          font-weight: bold;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: lightblue !important;
+        }
+
+        &:nth-child(odd) {
+          background-color: #f6f6f6;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .container {
+    padding: 0px;
+    margin-right: 0px;
+  }
+
+  .table-header {
+    flex-direction: column;
+
+    .title {
+      font-weight: bold;
+      font-size: 28px;
+    }
+
+    .fn {
+      display: flex;
+      column-gap: 1em;
+
+      .show {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .table-responsive {
+    height: 82vh;
+
+    table {
+      border-collapse: separate;
+      border-spacing: 0px 10px;
+    }
+
+    thead th {
+      display: none;
+    }
+
+    th,
+    td {
+      display: flex;
+      min-width: 90%;
+      column-gap: 0.5em;
+    }
+
+    td {
+      &:nth-child(1) {
+        display: none;
+      }
+
+      &:nth-child(2) {
+        background-color: lightgrey;
+      }
+
+      & .author {
+        display: flex;
+        align-items: center;
+        column-gap: 0.5em;
+      }
+    }
+
+    td[data-th]:before {
+      content: attr(data-th);
+      min-width: 80px;
+      max-width: 80px;
+      font-weight: bold;
+      font-size: small;
+      white-space: normal;
+      word-break: normal;
+    }
+  }
+}

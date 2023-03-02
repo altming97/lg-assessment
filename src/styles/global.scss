@@ -1,0 +1,16 @@
+@import "./book-list.scss";
+@import "./book-detail.scss";
+@import "./animate-fade.scss";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 40vh;
+  font-size: 36px;
+}
