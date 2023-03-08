@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Book } from "src/common/interface/Book";
 import { readableDate, getQueryParams } from "src/common/utils";
 
-import { Pill } from "src/components";
+import { Pill, Loader } from "src/components";
 
 const BookDetail = () => {
   const location = useLocation();
@@ -30,17 +30,21 @@ const BookDetail = () => {
             if (res) {
               setData(res);
             } else {
-              setError(
-                "Something went wrong, or the source you are finding doesn't exists",
-              );
+              throw Error;
             }
+          })
+          .catch((err) => {
+            console.log(err);
+            setError(
+              "Something went wrong, or the source you are finding doesn't exists",
+            );
           });
       }
     }
   }, [location.state]);
 
   if (loading || error) {
-    return <div className="loader">{error ? error : "Loading..."}</div>;
+    return <Loader label={error ? error : "Loading..."} />;
   }
 
   return (

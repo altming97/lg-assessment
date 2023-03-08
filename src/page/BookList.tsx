@@ -5,10 +5,11 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Book, BookCategory } from "src/common/interface/Book";
 import { readableDate, getQueryParams } from "src/common/utils";
 
-import { Button } from "src/components";
+import { Button, Loader } from "src/components";
 
 function App() {
   const [initialLoading, setInitialLoading] = useState<Boolean>(true);
+  const [error, setError] = useState<string>("");
   const [bookList, setBookList] = useState<Book[]>([]);
   const [totalBookList, setTotalBookList] = useState<Number>(0);
   const [filter, setFilter] = useState<string>("");
@@ -50,6 +51,12 @@ function App() {
         // Persist state in query string
         delete obj.take;
         navigate("?" + new URLSearchParams(obj).toString());
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(
+          "Something went wrong, or the source you are finding doesn't exists",
+        );
       });
   };
 
@@ -89,19 +96,29 @@ function App() {
   };
 
   useEffect(() => {
-    if (window.location.search) {
-      const { count, filter } = getQueryParams();
-      getBookList(count ? parseInt(count) : 10, false, filter);
-    } else {
-      getBookList(10, false);
-    }
-    getCategoryFilter();
+    let isFetched = false;
+    const fetchData = () => {
+      if (!isFetched) {
+        if (window.location.search) {
+          const { count, filter } = getQueryParams();
+          getBookList(count ? parseInt(count) : 10, false, filter);
+        } else {
+          getBookList(10, false);
+        }
+        getCategoryFilter();
+      }
+    };
 
+    fetchData();
+
+    return () => {
+      isFetched = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (initialLoading) {
-    return <div className="loader">Loading...</div>;
+  if (initialLoading || error) {
+    return <Loader label={error ? error : "Loading..."} />;
   }
 
   return (
